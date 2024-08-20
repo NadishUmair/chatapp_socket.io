@@ -1,5 +1,5 @@
 const express=require("express");
-const { registerUser, authUser } = require("../Controllers/userControllers");
+const { registerUser, authUser, Allusers } = require("../Controllers/userControllers");
 const upload = require("../middleware/multer.middlware");
 
 
@@ -7,7 +7,7 @@ const upload = require("../middleware/multer.middlware");
 
 const router = express.Router();
 
-router.route("/register").post(
+router.route("/").post(
     upload?.fields([
         {
             name:"avatar",
@@ -18,7 +18,7 @@ router.route("/register").post(
             maxCount:1
         }
     ])
-,registerUser);
+,registerUser).get(Allusers);
 router.post("/login",authUser);
 
 module.exports= router;

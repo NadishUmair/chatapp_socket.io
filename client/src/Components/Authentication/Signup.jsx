@@ -30,7 +30,7 @@ const Signup = () => {
   const submitHandler = async () => {
     try {
        setIslaoding(true);
-      const response = await axios.post("http://localhost:5000/api/user/register", formdata, {
+      const response = await axios.post("http://localhost:5000/api/user/", formdata, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
