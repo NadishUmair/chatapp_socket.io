@@ -1,6 +1,7 @@
 const express=require("express");
 const { registerUser, authUser, Allusers } = require("../Controllers/userControllers");
 const upload = require("../middleware/multer.middlware");
+const protect = require("../middleware/authMiddleware");
 
 
 
@@ -18,7 +19,7 @@ router.route("/").post(
             maxCount:1
         }
     ])
-,registerUser).get(Allusers);
+,registerUser).get(protect,Allusers);
 router.post("/login",authUser);
 
 module.exports= router;

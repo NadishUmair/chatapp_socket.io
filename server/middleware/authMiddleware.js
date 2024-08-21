@@ -1,12 +1,12 @@
 const jwt=require('jsonwebtoken');
-const userModel=require("../Models/UserModel");
+
 const UserModel = require('../Models/UserModel/user');
 
-const protect=async(res,res)=>{
+const protect=(async(req,res)=>{
 let token;
 if(
     req.headers.authorization && 
-    req.headers.authorization.startWith("Bearer")
+    req.headers.authorization.startsWith("Bearer")
 ){
     try{
          token=req.headers.authorization.split(" ")[1];
@@ -16,6 +16,12 @@ if(
     }catch(error){
           res.status(401).json({mesage:"Not Authorized"})
     }
+    if(!token){
+        res.status(401).json({message:"Not authorized ,no token"})
+
+    }
     
 }
-}
+})
+
+module.exports=protect;

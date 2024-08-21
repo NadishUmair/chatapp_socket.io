@@ -70,7 +70,8 @@ exports.authUser=async(req,res)=>{
     res.status(200).json({
       success:true,
       message:"logedIn Successfully",
-      existUser
+      existUser,
+      token: generateToken(existUser._id),
     })
   } catch (error) {
     res.status(500).json({message:error.message || "internal server error"})
