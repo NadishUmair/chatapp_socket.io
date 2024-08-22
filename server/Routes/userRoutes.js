@@ -19,7 +19,8 @@ router.route("/").post(
             maxCount:1
         }
     ])
-,registerUser).get(protect,Allusers);
+,registerUser)
+router.route("/").get(protect, Allusers);
 router.post("/login",authUser);
 
 module.exports= router;
