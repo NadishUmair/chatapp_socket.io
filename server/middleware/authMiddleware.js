@@ -20,7 +20,9 @@ const protect = async (req, res, next) => {
             }
 
             // Attach user to req.user
+            console.log(user);
             req.user = user;
+            
             next();
         } catch (error) {
             console.error("Token verification error:", error);  // Debugging

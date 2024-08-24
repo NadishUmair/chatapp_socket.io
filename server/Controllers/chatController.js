@@ -1,3 +1,4 @@
+
 const ChatModel = require("../Models/chatModel/chat");
 const UserModel = require("../Models/UserModel/user");
 
@@ -47,3 +48,50 @@ exports.accessChat = async (req, res) => {
       }
     }
   };
+
+
+exports.fetchChats=async(req,res)=>{
+  console.log("req",req.body);
+  try {
+    ChatModel.find({users:{$elemMatch: {$eq:req.user._id}}})
+    .populate("users","-password")
+    .populate("groupAdmin","-password")
+    .populate("latestMessage")
+    .sort({updatedAt:-1})
+     .then(async(results)=>{
+      results = await UserModel.populate(results,{
+        path:'latestMessage.sender',
+        select:"name pic email",
+      })
+       
+     res.status(200).send(results)
+     })
+   
+  } catch (error) {
+     res.status(500).json({message:error.message})
+  }
+}
+
+exports.createGroupChat=async (req,res)=>{
+
+  if(!req.body.users || req.body.name){
+    return res.status(404).json({message:"please fill all inputs"})
+  }
+  var users=JSON.parse(req.body.users);
+  if(users.length<2){
+    return res.status(400).send("more then two users are required to make group")
+  }
+
+  users.push(req.user);
+  try {
+      const groupChat=await ChatModel.create({
+        ChatName:req.body.name,
+        users:users,
+        isGroupChat:true,
+        
+      })
+  } catch (error) {
+    
+  }
+
+}
