@@ -74,7 +74,7 @@ exports.fetchChats=async(req,res)=>{
 
 exports.createGroupChat=async (req,res)=>{
 
-  if(!req.body.users || req.body.name){
+  if(!req.body.users || !req.body.name){
     return res.status(404).json({message:"please fill all inputs"})
   }
   var users=JSON.parse(req.body.users);
@@ -88,10 +88,69 @@ exports.createGroupChat=async (req,res)=>{
         ChatName:req.body.name,
         users:users,
         isGroupChat:true,
-        
+        isGroupAdmin:req.user
       })
+
+      const FullChat=await ChatModel.find({_id:groupChat._id})
+      .populate("users","-passowrd")
+      .populate("groupAdmin","-password")
+
+      res.status(200).send(FullChat);
   } catch (error) {
-    
+     res.status(500).json({message:error.message})
   }
 
+}
+
+exports.renameGroup=async(req,res)=>{
+  try {
+       const {chatId,chatName}=req.body;
+       const updatedChat=await ChatModel.findByIdAndUpdate(chatId,{
+        chatName,
+       },{
+        new:true
+       })
+       .populate("users","-password")
+       .populate("latestMessage","groupAdmin")
+
+       res.status(200).json({updatedChat})
+
+  } catch (error) {
+     res.status(500).json({message:error.message});
+  }
+}
+
+exports.addToGroup=async(req,res)=>{
+  try {
+      const {chatId,userId}=req.body;
+      const AddUser=await ChatModel.findByIdAndUpdate(chatId,
+        {
+          $push:{users:userId}
+        },{
+          new:true
+        }
+      )
+      .populate("users","-passowrd")
+      .populate("latestMessage","groupAdmin")
+      res.status(200).send(AddUser)
+  } catch (error) {
+    res.status(500).json({message:error.message})
+  }
+}
+exports.removeFromGroup=async(req,res)=>{
+  try {
+      const {chatId,userId}=req.body;
+      const AddUser=await ChatModel.findByIdAndUpdate(chatId,
+        {
+          $pull:{users:userId}
+        },{
+          new:true
+        }
+      )
+      .populate("users","-passowrd")
+      .populate("latestMessage","groupAdmin")
+      res.status(200).send(AddUser)
+  } catch (error) {
+    res.status(500).json({message:error.message})
+  }
 }
