@@ -23,7 +23,10 @@ const Login = () => {
         setLoading(true);
          const response=await axios.post("http://localhost:5000/api/user/login",formdata);
          toast.success(response.data.message)
-         console.log(response);
+         console.log(response.data.existUser);
+         const user= response.data.existUser
+         localStorage.setItem("userInfo",JSON.stringify(user))
+        
        } catch (error) {
         toast.error(error.response.data.message)
        }finally{
