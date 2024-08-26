@@ -26,6 +26,7 @@ const Login = () => {
          console.log(response.data.existUser);
          const user= response.data.existUser
          localStorage.setItem("userInfo",JSON.stringify(user))
+         console.log(localStorage.getItem("userInfo"));
         
        } catch (error) {
         toast.error(error.response.data.message)
