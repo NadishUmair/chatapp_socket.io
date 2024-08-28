@@ -4,6 +4,7 @@ import { CiSearch } from 'react-icons/ci';
 import { FaBell } from 'react-icons/fa';
 import { IoIosArrowDown } from 'react-icons/io';
 import { useChatState } from '../../Context/ChatProvider';
+import ProfileModal from './ProfileModal';
 
 const SideDrawer = () => {
   const { user }=useChatState()
@@ -49,7 +50,9 @@ const SideDrawer = () => {
             />
           </MenuButton>
           <MenuList>
+            <ProfileModal user={user}>
             <MenuItem>My Profile</MenuItem>
+            </ProfileModal>
             <MenuItem>Logout</MenuItem>
           </MenuList>
         </Menu>
