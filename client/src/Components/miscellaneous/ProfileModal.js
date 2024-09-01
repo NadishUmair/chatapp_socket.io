@@ -9,6 +9,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
@@ -29,26 +30,41 @@ const ProfileModal = ({ user, children }) => {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent
+         height="410px"
+        >
           <ModalHeader
            fontSize="40px"
            fontFamily="sans work"
            display="flex"
-          >{user.name}</ModalHeader>
+           justifyContent="center"
+       
+          >{user.name.toUpperCase()}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody
+          display="flex"
+          flexDir="column"
+          justifyContent="center"
+          alignItems="center"
+          >
             <Image
-             borderRdius="Full"
+             borderRadius="full"
+             objectFit="cover"
              boxSize="150px"
              src={user.avatar}
              alt={user.name}
             />
+            <Text fontSize="2rem"
+             color="gray"
+            >
+              {user.email}
+            </Text>
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button variant="ghost">Secondary Action</Button>
+            
           </ModalFooter>
         </ModalContent>
       </Modal>

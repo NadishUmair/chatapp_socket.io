@@ -5,9 +5,17 @@ import { FaBell } from 'react-icons/fa';
 import { IoIosArrowDown } from 'react-icons/io';
 import { useChatState } from '../../Context/ChatProvider';
 import ProfileModal from './ProfileModal';
+import { useNavigate } from 'react-router-dom';
+
 
 const SideDrawer = () => {
   const { user }=useChatState()
+  const navigate = useNavigate();
+
+  const handlelogout=()=>{
+    localStorage.removeItem("userInfo")
+    navigate("/")
+  }
   return (
     <Box
       display="flex"
@@ -53,7 +61,7 @@ const SideDrawer = () => {
             <ProfileModal user={user}>
             <MenuItem>My Profile</MenuItem>
             </ProfileModal>
-            <MenuItem>Logout</MenuItem>
+            <MenuItem onClick={handlelogout}>Logout</MenuItem>
           </MenuList>
         </Menu>
       </Box>
