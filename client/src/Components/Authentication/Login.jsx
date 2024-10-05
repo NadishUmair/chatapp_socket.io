@@ -31,7 +31,7 @@ const Login = () => {
        } catch (error) {
         toast.error(error.response.data.message)
        }finally{
-        setLoading(false);
+        setLoading(false)
         navigate('/chat')
        }
     }

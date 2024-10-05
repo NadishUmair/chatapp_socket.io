@@ -48,6 +48,7 @@ exports.registerUser=async(req,res)=>{
 
 exports.authUser=async(req,res)=>{
   const {email,password}=req.body;
+  console.log(req.body);
   try {
     if(!email || !password){
       res.status(400)

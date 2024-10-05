@@ -6,8 +6,8 @@ import ChatBox from '../../Components/ChatBox';
 import MyChats from '../../Components/MyChats';
 export default function Chat() {
   const {user}=useChatState();
-  console.log(user);
- console.log(localStorage);
+  console.log("user",user);
+//  console.log(localStorage);
   return (
     <div>
        {user && <SideDrawer/>}
