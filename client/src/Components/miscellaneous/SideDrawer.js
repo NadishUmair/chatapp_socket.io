@@ -32,7 +32,7 @@ import axios from "axios"
 import Userlistitem from "../UserAvatar/userlistitem";
 
 const SideDrawer = () => {
-  const { user, setSelectedChat,chats,setChats } = useChatState();
+  const { user, setSelectedChat,chats,setChats,token } = useChatState();
   const { isOpen,onOpen, onClose } = useDisclosure();
  const [loading,setloading]=useState(null);
   
@@ -60,7 +60,7 @@ const SideDrawer = () => {
       try {
            setloading(true)
           
-           const token=user.token;
+        
            const config={
             headers:{
               Authorization: `Bearer ${token}`
@@ -84,7 +84,7 @@ const SideDrawer = () => {
     console.log("user id",userId);
     try {
        setloading(true);
-       const token=user.token;
+       console.log(token);
        const config={
         headers:{
           "Content-type": "application/json",
@@ -93,7 +93,6 @@ const SideDrawer = () => {
        }
       //  console.log("user Id",userId);
      const {data}=await axios.post("http://localhost:5000/api/chat",{userId},config);
-     
      if(!chats.find((c)=>c._id===data._id)) setChats([data,...chats]);
       setSelectedChat(data);
       onClose();
