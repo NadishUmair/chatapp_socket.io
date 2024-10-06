@@ -5,7 +5,7 @@ const UserModel = require("../Models/UserModel/user");
 
 exports.accessChat = async (req, res) => {
     const { userId } = req.body;
-  
+    console.log("userId",userId);
     if (!userId) {
       console.log("UserId param not sent with request");
       return res.sendStatus(400);
@@ -51,7 +51,7 @@ exports.accessChat = async (req, res) => {
 
 
 exports.fetchChats=async(req,res)=>{
-  console.log("req",req.body);
+  console.log("req here");
   try {
     ChatModel.find({users:{$elemMatch: {$eq:req.user._id}}})
     .populate("users","-password")

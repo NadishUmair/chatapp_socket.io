@@ -80,15 +80,26 @@ exports.authUser=async(req,res)=>{
 }
 
 exports.Allusers = async (req, res) => {
-  const keyword = req.query.search
+  const keyword = req.query.search; // Get the search parameter from the query
+  console.log("Search keyword:", keyword); // Debugging
+
+  // Define the keyword for the query
+  const searchCriteria = keyword
     ? {
         $or: [
-          { name: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
+          { name: { $regex: keyword, $options: "i" } },
+          { email: { $regex: keyword, $options: "i" } },
         ],
       }
-    : {};
+    : {}; // Use an empty object if no keyword is provided
 
-  const users = await UserModel.find(keyword).find({ _id: { $ne: req.user._id } });
-  res.send(users);
+  try {
+    const users = await UserModel.find(searchCriteria).find({ _id: { $ne: req.user._id } });
+    console.log("Users found:", users); // Debugging
+    res.send(users);
+  } catch (error) {
+    console.error("Error fetching users:", error); // Log any error
+    res.status(500).json({ message: "Server error" });
+  }
 };
+

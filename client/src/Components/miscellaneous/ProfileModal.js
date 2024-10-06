@@ -39,7 +39,7 @@ const ProfileModal = ({ user, children }) => {
            display="flex"
            justifyContent="center"
        
-          >{user.name.toUpperCase()}</ModalHeader>
+          >{user?.name?.toUpperCase()}</ModalHeader>
           <ModalCloseButton />
           <ModalBody
           display="flex"

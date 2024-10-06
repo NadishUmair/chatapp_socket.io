@@ -1,6 +1,6 @@
 import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack } from '@chakra-ui/react'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -23,8 +23,8 @@ const Login = () => {
         setLoading(true);
          const response=await axios.post("http://localhost:5000/api/user/login",formdata);
          toast.success(response.data.message)
-         console.log(response.data.existUser);
-         const user= response.data.existUser
+        //  console.log("user",response.data);
+         const user= response.data
          localStorage.setItem("userInfo",JSON.stringify(user))
          console.log(localStorage.getItem("userInfo"));
         
@@ -35,6 +35,7 @@ const Login = () => {
         navigate('/chat')
        }
     }
+  
   return (
   <>
   <ToastContainer/>
