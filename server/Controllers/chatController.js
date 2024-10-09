@@ -73,7 +73,7 @@ exports.fetchChats=async(req,res)=>{
 }
 
 exports.createGroupChat=async (req,res)=>{
-
+   console.log(req.body.name);
   if(!req.body.users || !req.body.name){
     return res.status(404).json({message:"please fill all inputs"})
   }
@@ -85,14 +85,14 @@ exports.createGroupChat=async (req,res)=>{
   users.push(req.user);
   try {
       const groupChat=await ChatModel.create({
-        ChatName:req.body.name,
+        chatName:req.body.name,
         users:users,
         isGroupChat:true,
         isGroupAdmin:req.user
       })
-
+     await groupChat.save();
       const FullChat=await ChatModel.find({_id:groupChat._id})
-      .populate("users","-passowrd")
+      .populate("users","-password")
       .populate("groupAdmin","-password")
 
       res.status(200).send(FullChat);

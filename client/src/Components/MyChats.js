@@ -8,7 +8,7 @@ import { IoMdAddCircleOutline } from 'react-icons/io';
 import { getSender } from '../config/config';
 import GroupChatModal from './miscellaneous/GroupChatModal';
 
-const MyChats = () => {
+const MyChats = ({fecthAgain}) => {
   const [logedUser,setLogedUser]=useState();
   const { user, setSelectedChat,selectedChat,chats,setChats, token} = useChatState();
   const [loading,setloading]=useState();
@@ -48,7 +48,7 @@ const MyChats = () => {
     // console.log("hy");
     setLogedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  },[])
+  },[fecthAgain])
    console.log("loged user",logedUser);
   return (
     <Box
