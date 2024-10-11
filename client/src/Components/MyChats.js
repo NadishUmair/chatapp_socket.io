@@ -10,7 +10,7 @@ import GroupChatModal from './miscellaneous/GroupChatModal';
 
 const MyChats = ({fecthAgain}) => {
   const [logedUser,setLogedUser]=useState();
-  const { user, setSelectedChat,selectedChat,chats,setChats, token} = useChatState();
+  const { user, setSelectedChat,SelectedChat,chats,setChats, token} = useChatState();
   const [loading,setloading]=useState();
 
 
@@ -52,7 +52,7 @@ const MyChats = ({fecthAgain}) => {
    console.log("loged user",logedUser);
   return (
     <Box
-    d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
+    display={{ base: SelectedChat ? "none" : "flex", md: "flex" }}
     flexDir="column"
     alignItems="center"
     p={3}
@@ -66,7 +66,7 @@ const MyChats = ({fecthAgain}) => {
       px={3}
       fontSize={{ base: "28px", md: "30px" }}
       fontFamily="Work sans"
-      d="flex"
+      display="flex"
       w="100%"
       justifyContent="space-between"
       alignItems="center"
@@ -76,7 +76,7 @@ const MyChats = ({fecthAgain}) => {
      <GroupChatModal>
 
         <Button
-          d="flex"
+          display="flex"
           fontSize={{ base: "17px", md: "10px", lg: "17px" }}
           rightIcon={<IoMdAddCircleOutline />}
           >
@@ -85,7 +85,7 @@ const MyChats = ({fecthAgain}) => {
     </GroupChatModal>
     </Box>
     <Box
-      d="flex"
+      display="flex"
       flexDir="column"
       p={3}
       bg="#F8F8F8"
@@ -100,8 +100,8 @@ const MyChats = ({fecthAgain}) => {
             <Box
               onClick={() => setSelectedChat(chat)}
               cursor="pointer"
-              bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
-              color={selectedChat === chat ? "white" : "black"}
+              bg={SelectedChat === chat ? "#38B2AC" : "#E8E8E8"}
+              color={SelectedChat === chat ? "white" : "black"}
               px={3}
               py={2}
               borderRadius="lg"

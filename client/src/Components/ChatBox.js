@@ -4,11 +4,11 @@ import SingleChat from "./singleChat";
 
 
 const Chatbox = ({ fetchAgain, setFetchAgain }) => {
-  const { selectedChat } = useChatState();
+  const { SelectedChat } = useChatState();
 
   return (
     <Box
-      d={{ base: selectedChat ? "flex" : "none", md: "flex" }}
+      display={{ base: SelectedChat ? "flex" : "none", md: "flex" }}
       alignItems="center"
       flexDir="column"
       p={3}
