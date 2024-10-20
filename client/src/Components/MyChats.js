@@ -10,7 +10,7 @@ import GroupChatModal from './miscellaneous/GroupChatModal';
 
 const MyChats = ({fecthAgain}) => {
   const [logedUser,setLogedUser]=useState();
-  const { user, setSelectedChat,SelectedChat,chats,setChats, token} = useChatState();
+  const { user, setSelectedChat,SelectedChat,chats,setChats} = useChatState();
   const [loading,setloading]=useState();
 
 
@@ -22,7 +22,7 @@ const MyChats = ({fecthAgain}) => {
        const config={
         headers:{
           "Content-type": "application/json",
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${user.token}`
         }
        }
       //  console.log(config);
@@ -49,7 +49,7 @@ const MyChats = ({fecthAgain}) => {
     setLogedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
   },[fecthAgain])
-   console.log("loged user",logedUser);
+   
   return (
     <Box
     display={{ base: SelectedChat ? "none" : "flex", md: "flex" }}

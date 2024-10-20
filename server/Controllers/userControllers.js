@@ -68,11 +68,14 @@ exports.authUser=async(req,res)=>{
         message:"Password not matched"
       })
     }
+    existUser.token=generateToken(existUser._id),
+    await existUser.save();
+   const user=existUser.toObject();
     res.status(200).json({
       success:true,
       message:"logedIn Successfully",
-      existUser,
-      token: generateToken(existUser._id),
+      existUser:user
+      
     })
   } catch (error) {
     res.status(500).json({message:error.message || "internal server error"})

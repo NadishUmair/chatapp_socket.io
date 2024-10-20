@@ -14,7 +14,7 @@ const GroupChatModal = ({children}) => {
    const [loading,setloading]=useState(false);
    const toast =useToast();
 
-   const {user,chats,setChats,token}=useChatState();
+   const {user,chats,setChats}=useChatState();
 
    const handleSearch=async(query)=>{
   
@@ -27,7 +27,7 @@ const GroupChatModal = ({children}) => {
         setloading(true);
         const config={
           headers:{
-            Authorization:`Bearer ${token}`
+            Authorization:`Bearer ${user.token}`
           }
         }
         const {data} =await axios.get(`http://localhost:5000/api/user?search=${search}`,config);
@@ -65,7 +65,7 @@ const handleSubmit=async()=>{
   try {
     const config={
       headers:{
-        Authorization:`Bearer ${token}`
+        Authorization:`Bearer ${user.token}`
       }
     }
      const {data}=await axios.post("http://localhost:5000/api/chat/group",{name:groupChatName,

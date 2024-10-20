@@ -4,9 +4,11 @@ import { Box, IconButton, Text } from '@chakra-ui/react';
 import { IoMdArrowBack } from 'react-icons/io';
 import { getSender, getSenderFull } from '../config/config';
 import ProfileModal from './miscellaneous/ProfileModal';
+import UpdateGroupChatModel from './miscellaneous/UpdateGroupChatModel';
 
 const SingleChat = () => {
-    const  {user,chats,SelectedChat,setSelectedChat}=useChatState();
+    const  {user,chats,SelectedChat,setSelectedChat,fetchAgain,setFetchAgain}=useChatState();
+    console.log("selected chat",SelectedChat);
   return (
     <>
        
@@ -29,16 +31,32 @@ const SingleChat = () => {
             />
             {!SelectedChat.isGroupChat ? (
              <>
-             {getSender(user,SelectedChat.users)}
-              <ProfileModal user={getSenderFull(user,SelectedChat.users)}/>
+             {getSender(user,SelectedChat?.users)}
+              <ProfileModal user={getSenderFull(user,SelectedChat?.users)}/>
              </>
             )
             :(
                 <>
-                 {SelectedChat?.chatName?.toUpperCase()}
+                
+                 {SelectedChat.chatName?.toUpperCase()}
+                 <UpdateGroupChatModel
+                  fetchAgain={fetchAgain}
+                  setFetchAgain={setFetchAgain}
+                 />
                 </>
             )}
           </Text>
+          <Box
+            d="flex"
+            flexDir="column"
+            justifyContent="flex-end"
+            p={3}
+            bg="#E8E8E8"
+            w="100%"
+            h="100%"
+            borderRadius="lg"
+            overflowY="hidden"
+          ></Box>
         </>
         ):(
           <Box display="flex" alignItems="center" justifyContent="center" h="100%">

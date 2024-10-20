@@ -55,7 +55,7 @@ exports.fetchChats=async(req,res)=>{
   try {
     ChatModel.find({users:{$elemMatch: {$eq:req.user._id}}})
     .populate("users","-password")
-    .populate("groupAdmin","-password")
+    .populate("isGroupAdmin","-password")
     .populate("latestMessage")
     .sort({updatedAt:-1})
      .then(async(results)=>{
@@ -93,7 +93,7 @@ exports.createGroupChat=async (req,res)=>{
      await groupChat.save();
       const FullChat=await ChatModel.find({_id:groupChat._id})
       .populate("users","-password")
-      .populate("groupAdmin","-password")
+      .populate("isGroupAdmin","-password")
 
       res.status(200).send(FullChat);
   } catch (error) {
@@ -105,13 +105,14 @@ exports.createGroupChat=async (req,res)=>{
 exports.renameGroup=async(req,res)=>{
   try {
        const {chatId,chatName}=req.body;
+       console.log("chat id",chatId)
        const updatedChat=await ChatModel.findByIdAndUpdate(chatId,{
         chatName,
        },{
         new:true
        })
        .populate("users","-password")
-       .populate("latestMessage","groupAdmin")
+       .populate("latestMessage","isGroupAdmin")
 
        res.status(200).json({updatedChat})
 
@@ -131,7 +132,7 @@ exports.addToGroup=async(req,res)=>{
         }
       )
       .populate("users","-passowrd")
-      .populate("latestMessage","groupAdmin")
+      .populate("latestMessage","  isGroupAdmin")
       res.status(200).send(AddUser)
   } catch (error) {
     res.status(500).json({message:error.message})
@@ -139,8 +140,9 @@ exports.addToGroup=async(req,res)=>{
 }
 exports.removeFromGroup=async(req,res)=>{
   try {
+    console.log("hy")
       const {chatId,userId}=req.body;
-      const AddUser=await ChatModel.findByIdAndUpdate(chatId,
+      const RemoveUser=await ChatModel.findByIdAndUpdate(chatId,
         {
           $pull:{users:userId}
         },{
@@ -148,8 +150,8 @@ exports.removeFromGroup=async(req,res)=>{
         }
       )
       .populate("users","-passowrd")
-      .populate("latestMessage","groupAdmin")
-      res.status(200).send(AddUser)
+      .populate("latestMessage","  isGroupAdmin")
+      res.status(200).send(RemoveUser)
   } catch (error) {
     res.status(500).json({message:error.message})
   }

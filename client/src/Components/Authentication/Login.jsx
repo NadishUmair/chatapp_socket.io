@@ -25,10 +25,10 @@ const Login = () => {
          toast.success(response.data.message)
         //  console.log("user",response.data);
          const user= response.data.existUser;
-         const token= response.data.token;
+         
          
          localStorage.setItem("userInfo",JSON.stringify(user))
-         localStorage.setItem("talk_token",JSON.stringify(token))
+         
          console.log(localStorage.getItem("userInfo"));
         
        } catch (error) {

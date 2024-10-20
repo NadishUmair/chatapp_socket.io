@@ -13,7 +13,7 @@ const ChatSchema=new mongoose.Schema({
           type:mongoose.Types.ObjectId,
             ref:"Message"
     },
-    groupAdmin:{
+    isGroupAdmin:{
             type:mongoose.Types.ObjectId,
             ref:"User"
     }

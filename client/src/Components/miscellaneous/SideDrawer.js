@@ -32,7 +32,7 @@ import axios from "axios"
 import Userlistitem from "../UserAvatar/userlistitem";
 
 const SideDrawer = () => {
-  const { user, setSelectedChat,chats,setChats,token } = useChatState();
+  const { user, setSelectedChat,chats,setChats } = useChatState();
   const { isOpen,onOpen, onClose } = useDisclosure();
  const [loading,setloading]=useState(null);
   
@@ -63,7 +63,7 @@ const SideDrawer = () => {
         
            const config={
             headers:{
-              Authorization: `Bearer ${token}`
+              Authorization: `Bearer ${user.token}`
             }
            }
            const {data}=await axios.get(`http://localhost:5000/api/user?search=${search}`,config)
@@ -88,7 +88,7 @@ const SideDrawer = () => {
        const config={
         headers:{
           "Content-type": "application/json",
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${user.token}`
         }
        }
       //  console.log("user Id",userId);
