@@ -4,7 +4,7 @@ const UserModel = require("../Models/UserModel/user");
 
 
 
-exports.sendMessage=async()=>{
+exports.sendMessage=async(req,res)=>{
     const {content,chatId}=req.body;
          if(!content || !chatId ){
             return res.sendStratus(400)
@@ -15,10 +15,10 @@ exports.sendMessage=async()=>{
             chat:chatId
          }
     try {
-        var message=await Message.create(newMessage);
+        var message=await MessageModel.create(newMessage);
 
-        message=await message.populate("sender","name avatar").execPopulate();
-        message=await message.populate("chat").execPopulate();
+        message=await message.populate("sender","name avatar")
+        message=await message.populate("chat")
         message=await UserModel.populate(message,{
             path:"chat.users",
             select:"name avatar email"
@@ -28,6 +28,6 @@ exports.sendMessage=async()=>{
         })
         res.json(message)
     } catch (error) {
-         throw new Error(error.message)
+        res.send(error.message)
     }
 }

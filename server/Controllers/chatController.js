@@ -50,27 +50,27 @@ exports.accessChat = async (req, res) => {
   };
 
 
-exports.fetchChats=async(req,res)=>{
-  console.log("req here");
-  try {
-    ChatModel.find({users:{$elemMatch: {$eq:req.user._id}}})
-    .populate("users","-password")
-    .populate("isGroupAdmin","-password")
-    .populate("latestMessage")
-    .sort({updatedAt:-1})
-     .then(async(results)=>{
-      results = await UserModel.populate(results,{
-        path:'latestMessage.sender',
-        select:"name pic email",
-      })
-       
-     res.status(200).send(results)
-     })
-   
-  } catch (error) {
-     res.status(500).json({message:error.message})
-  }
-}
+  exports.fetchChats = async (req, res) => {
+    console.log("Fetching chats for user:", req.user._id);
+    try {
+      const results = await ChatModel.find({ users: { $elemMatch: { $eq: req.user._id } } })
+        .populate("users", "-password")
+        .populate("isGroupAdmin", "-password")
+        .populate("latestMessage")
+        .sort({ updatedAt: -1 });
+  
+      const populatedResults = await UserModel.populate(results, {
+        path: 'latestMessage.sender',
+        select: "name avatar email",
+      });
+  
+      res.status(200).send(populatedResults);
+    } catch (error) {
+      console.error("Error fetching chats:", error);
+      res.status(500).json({ message: error.message });
+    }
+  };
+  
 
 exports.createGroupChat=async (req,res)=>{
    console.log(req.body.name);
