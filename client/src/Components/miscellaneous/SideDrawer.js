@@ -30,15 +30,19 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import LoadingComponent from "../LoadingComponent";
 import axios from "axios"
 import Userlistitem from "../UserAvatar/userlistitem";
+import { getSender } from "../../config/config";
 
+import NotificationBadge, { Effect } from 'react-notification-badge';
 const SideDrawer = () => {
-  const { user, setSelectedChat,chats,setChats } = useChatState();
+  const { user, setSelectedChat,chats,setChats,notifications,setNotifications } = useChatState();
   const { isOpen,onOpen, onClose } = useDisclosure();
  const [loading,setloading]=useState(null);
   
   const navigate = useNavigate();
   const [search,setSearch]=useState();
   const [searchResult, setSearchResult] = useState();
+
+  
   const handlelogout = () => {
     localStorage.removeItem("userInfo");
     navigate("/");
@@ -80,21 +84,22 @@ const SideDrawer = () => {
   }
 
   const accessChat=async(userId)=>{
-    console.log("access by",user)
-    console.log("user id",userId);
+    // console.log("access by",user.token)
+    // console.log("user id",userId);
     try {
        setloading(true);
-       console.log(token);
        const config={
         headers:{
           "Content-type": "application/json",
           Authorization: `Bearer ${user.token}`
         }
        }
-      //  console.log("user Id",userId);
+       console.log("user Id",userId);
      const {data}=await axios.post("http://localhost:5000/api/chat",{userId},config);
+     console.log("data",data);
      if(!chats.find((c)=>c._id===data._id)) setChats([data,...chats]);
       setSelectedChat(data);
+
       onClose();
       
     } catch (error) {
@@ -110,7 +115,7 @@ const SideDrawer = () => {
       setloading(false);
     }
   }
-  console.log(searchResult);
+  console.log("notifications",notifications);
   return (
     <>
       <Box
@@ -138,9 +143,31 @@ const SideDrawer = () => {
 
         <Box display="flex" alignItems="center" justifyContent="center">
           <Menu>
+           
             <MenuButton p={1}>
+            <NotificationBadge
+             count={notifications.length}
+             effect={Effect.scale}
+            />
               <FaBell fontSize="25px" m={1} />
             </MenuButton>
+            <MenuList pl="2">
+              {!notifications.length && "No News Messages"}
+              {notifications.map((notif) => (
+        <MenuItem
+    key={notif._id}
+    onClick={() => {
+      setSelectedChat(notif.chat);
+      setNotifications(notifications.filter((n) => n !== notif));
+    }}
+  >
+    {notif.chat.isGroupChat
+      ? `New Message in ${notif.chat.chatName}`
+      : `New Message from ${getSender(user, notif.chat.users)}`}
+  </MenuItem>
+))}
+
+            </MenuList>
           </Menu>
           <Menu>
             <MenuButton as={Button} rightIcon={<IoIosArrowDown />}>

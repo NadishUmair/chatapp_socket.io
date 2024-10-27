@@ -31,3 +31,18 @@ exports.sendMessage=async(req,res)=>{
         res.send(error.message)
     }
 }
+
+
+exports.AllMessages=async(req,res)=>{
+    try {
+        console.log("params",req.params)
+        const id=req.params.chatId;
+        const Messages=await MessageModel.find({chat:id}).populate(
+            "sender","name avatar"
+        ).populate("chat")
+
+        res.json(Messages);
+    } catch (error) {
+          res.status(500).json(error.message);
+    }
+}

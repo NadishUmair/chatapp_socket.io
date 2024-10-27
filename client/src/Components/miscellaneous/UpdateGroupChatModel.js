@@ -7,7 +7,7 @@ import axios from 'axios';
 import UserListItem from '../UserAvatar/userlistitem';
 import {toast} from "react-toastify";
 
-const UpdateGroupChatModel = ({fetchAgain,setFetchAgain}) => {
+const UpdateGroupChatModel = ({fetchAgain,setFetchAgain,fetchMessages}) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [groupChatName,setGroupChatName]= useState();
     const [search,setSearch]=useState();
